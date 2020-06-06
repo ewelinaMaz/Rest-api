@@ -1,7 +1,7 @@
 const express = require('express');
 const router = express.Router();
-const db = require('./db.js');
-const uuidv4 = require('uuid/v4');
+const db = require('../db.js');
+const { uuid } = require('uuidv4');
 
 router.route('/testimonials').get((req, res) => {
     res.json(db.testimonials);
@@ -17,7 +17,7 @@ router.route('/testimonials').get((req, res) => {
 
   router.route('/testimonials').post((req, res) => {
       const {author, text} = req.body;
-      const id = uuidv4();
+      const id = uuid();
       res.json({message: 'ok'})
   });
 
@@ -26,7 +26,7 @@ router.route('/testimonials').get((req, res) => {
       res.json({message: 'ok'})
   });
 
-  router.route('/testimonials/:id').delate((req, res) => {
+  router.route('/testimonials/:id').delete((req, res) => {
       res.json({message: 'ok'})
   });
 
