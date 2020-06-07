@@ -1,20 +1,20 @@
 {
-  "name": "clientbook",
+  "name": "client_book",
   "version": "1.0.0",
   "engines": {
     "node": "12.16.2"
-  },
-  "main": "index.js",
-  "author": "Ewelina Mazurek <ewelina.laszczak7@gmail.com>",
-  "license": "MIT",
-  "scripts": {
-    "start": "nodemon server.js",
-    "build": "cd client && yarn install && yarn build"
   },
   "dependencies": {
     "cors": "^2.8.5",
     "express": "^4.17.1",
     "nodemon": "^2.0.4",
     "uuidv4": "^6.1.0"
-  }
+  },
+  "main": "index.js",
+  "author": "Ewelina Mazurek <ewelina.laszczak7@gmail.com>",
+  "license": "MIT",
+  "scripts": {
+    "start": "nodemon server.js"
+  },
+  "build": "cd client && yarn install && yarn build"
 }
