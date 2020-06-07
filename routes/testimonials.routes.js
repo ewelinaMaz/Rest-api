@@ -16,13 +16,27 @@ router.route('/testimonials').get((req, res) => {
   });
 
   router.route('/testimonials').post((req, res) => {
-      const {author, text} = req.body;
       const id = uuid();
+      const {author, text} = req.body;
+      db.testimonials = db.testimonials.map(item => {
+        if (item.id == id.params.req) {
+          return {
+            id: id.params.id,
+            author: author,
+            text: text,
+          };
+        };
+      });
       res.json({message: 'ok'})
   });
 
   router.route('/testimonials/:id').put((req, res) => {
-      const {author, text} = req.body;
+    const {author, text} = req.body;
+      db.testimonials.push({
+        id: uuid(),
+        author: author,
+        text: text,
+      });
       res.json({message: 'ok'})
   });
 
