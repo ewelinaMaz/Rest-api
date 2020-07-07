@@ -1,7 +1,8 @@
 const express = require('express');
 const router = express.Router();
 const db = require('../db.js');
-const { uuid } = require('uuidv4');
+const { v4: uuidv4 } = require('uuid');
+
 
 router.route('/seats').get((req, res) => {
     res.json(db.seats);
@@ -12,44 +13,43 @@ router.route('/seats/:id').get((req, res) => {
 });
 
 router.route('/seats').post((req, res) => {
-    for (let item = 0; item < db.seats.length; item++) {
-        if (db.seats[item], seats == req.body.seat &&
-            db.seats[item].day == req.body.day) {
+    const newSeat = {
+        id: uuidv4(),
+        day: req.body.day,
+        seat: req.body.seat,
+        client: req.body.client,
+        email: req.body.email
+    };
+        if (db.seats.some(seat => seat.day == newSeat.day &&
+            seat.seat == newSeat.seat)) {
             res.json({ message: 'The slot is already taken..' });
+        } else {
+            db.seats.push(newSeat);
+            req.io.emit('seatsUpdated', db.seats);
+            res.json({ message: 'ok'});
         }
-    }
-    const id = uuid();
-    const { day, seat, client, email} = req.body;
-    db.seat.push({
-        id: id,
-        day: day,
-        seat: seat,
-        client: client,
-        email: email,
     });
-    res.json({ message: 'ok'});
-});
 
 router.route('/seats/:id').put((req, res) => {
-    const { day, seat, client, email} = req.body;
-    db.seats = db.seats.map(item => {
-        if(item.id = req.pamrams.id) {
-            return {
-                id: req.params.id,
-                day: day,
-                seat: seat,
-                client: client,
-                email: email,
-            };
-        } else {
-            return item;
+    const seat = db.seats.find(item =>
+        item.id == req.params.id);
+        const index = db.seats.indexOf(seat);
+        const updatedSeat = {
+            ...seat,
+            day: req.body.day,
+            seat: req.body.seat,
+            client: req.body.client,
+            email: req.body.email
         };
+        db.seats[index] = updatedSeat;
+        res.json({ message: 'ok'});
     });
-    res.json({ message: 'ok' });
-});
 
 router.route('/seats/:id').delete((req, res) => {
-    db.seats.splice(req.params.id, 1);
+    const seat = db.seats.find(item =>
+        item.id == req.params.id);
+    const index = db.seats.indexOf(seat);
+    db.seats.splice(index, 1);    
     res.json({ message: 'ok' });
 });
 

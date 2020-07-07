@@ -11,13 +11,17 @@ app.use(express.urlencoded({ extended: false}));
 app.use(express.json());
 app.use(cors());
 
-// Serve static files from the React app
-app.use(express.static(path.join(__dirname + '/client/build')));
+app.use((req, res, next) => {
+  req.io = io;
+  next();
+});
 
 app.use('/api/', testimonialsRoutes);
 app.use('/api/', concertsRoutes);
 app.use('/api/', seatsRoutes);
 
+// Serve static files from the React app
+app.use(express.static(path.join(__dirname + '/client/build')));
 app.get('*', (req, res) => {
   res.sendFile(path.join(__dirname + '/client/build/index.html'));
 });
@@ -34,4 +38,7 @@ const server = app.listen(process.env.PORT || 8000, () => {
 
   io.on('connection', socket => {
     console.log('New socket');
+    socket.on('seatsUpdated', seats => {
+      socket.broadcast('seatsUpdated', seats);
+    });
   });
