@@ -6,7 +6,7 @@ router.get('/seats', SeatController.getAll);
 router.get('/seats/:id', SeatController.getById);
 router.post('/seats', SeatController.addNew);
 router.put('/seats/:id', SeatController.change);
-router.delate('/seats/:id', SeatController.delete);
+router.delete('/seats/:id', SeatController.delete);
 
 module.exports = router;
 
