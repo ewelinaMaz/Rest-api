@@ -53,3 +53,4 @@ io.on("connection", (socket) => {
     socket.broadcast("seatsUpdated", seats);
   });
 });
+module.exports = server;
