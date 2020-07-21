@@ -27,7 +27,13 @@ exports.addNew = async (req, res) => {
       client: client,
       email: email,
     });
-    await newSeat.save();
+    if (await Seat.exists({ day: day, seat: seat })) {
+      res.status(409).json({ message: "The slot is already taken"});
+  } else {
+      await newSeat.save();
+      const seats = await Seat.find();
+      req.io.emit('seatsUpdated', seats);
+  }
     res.json({ message: "OK" });
   } catch (err) {
     res.status(500).json({ message: err });
@@ -60,5 +66,5 @@ exports.delete = async (req, res) => {
   } catch (err) {
     res.status(500).json({ message: err });
   }
-  req.io.emit('seatsUpdated', db.seats);
+  req.io.emit("seatsUpdated", db.seats);
 };

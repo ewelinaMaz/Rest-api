@@ -32,9 +32,8 @@ app.use((req, res) => {
 });
 
 // connects our backend code with the database
-mongoose.connect("mongodb+srv://Ewelina:Ewelina@cluster0.o3kdb.mongodb.net/NewWaveDB?retryWrites=true&w=majority", {
-  useNewUrlParser: true, useUnifiedTopology: true
-});
+mongoose.connect("mongodb+srv://Ewelina:Ewelina@cluster0.o3kdb.mongodb.net/NewWaveDB?retryWrites=true&w=majority", { useNewUrlParser: true, useUnifiedTopology: true });
+  
 const db = mongoose.connection;
 
 db.once("open", () => {
