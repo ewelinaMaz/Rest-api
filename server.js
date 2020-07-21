@@ -32,14 +32,24 @@ app.use((req, res) => {
 });
 
 // connects our backend code with the database
-mongoose.connect("mongodb+srv://Ewelina:Ewelina@cluster0.o3kdb.mongodb.net/NewWaveDB?retryWrites=true&w=majority", { useNewUrlParser: true, useUnifiedTopology: true });
-  
+process.env.NODE_ENV === "production"
+  ? mongoose.connect(
+      "mongodb+srv://Ewelina:Ewelina@cluster0.o3kdb.mongodb.net/NewWaveDB?retryWrites=true&w=majority",
+      { useNewUrlParser: true, useUnifiedTopology: true }
+    )
+  : mongoose.connect("mongodb://localhost:27017/NewWaveDB", {
+      useNewUrlParser: true,
+      useUnifiedTopology: true,
+    });
+
 const db = mongoose.connection;
 
 db.once("open", () => {
   console.log("Connected to the database");
 });
+
 db.on("error", (err) => console.log("Error " + err));
+
 const server = app.listen(process.env.PORT || 8000, () => {
   console.log("Server is running on port: 8000");
 });

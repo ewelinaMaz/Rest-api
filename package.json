@@ -19,7 +19,7 @@
   "scripts": {
     "start": "nodemon server.js",
     "build": "cd client && yarn install && yarn build",
-    "test": "mocha \"./tests/**/*.test.js\"",
-    "test:watch": "onchange \"./**/*.js\" -i -k -- yarn run test"
+    "test": "SET NODE_ENV = 'dev' && mocha \"./tests/**/*.test.js\"",
+    "test:watch": "SET NODE_ENV = 'dev' && onchange \"./**/*.js\" -i -k -- yarn run test"
   }
 }
