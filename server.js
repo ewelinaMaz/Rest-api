@@ -7,10 +7,12 @@ const seatsRoutes = require("./routes/seats.routes");
 const path = require("path");
 const socket = require("socket.io");
 const app = express();
+const helmet = require('helmet');
 
 app.use(express.urlencoded({ extended: false }));
 app.use(express.json());
 app.use(cors());
+app.use(helmet());
 
 app.use((req, res, next) => {
   req.io = io;
@@ -34,7 +36,7 @@ app.use((req, res) => {
 // connects our backend code with the database
 process.env.NODE_ENV === "production"
   ? mongoose.connect(
-      "mongodb+srv://Ewelina:Ewelina@cluster0.o3kdb.mongodb.net/NewWaveDB?retryWrites=true&w=majority",
+      "mongodb+srv://${process.env.GITHUB_USERNAME}:${process.env.PASSWORD}@cluster0.o3kdb.mongodb.net/NewWaveDB?retryWrites=true&w=majority",
       { useNewUrlParser: true, useUnifiedTopology: true }
     )
   : mongoose.connect("mongodb://localhost:27017/NewWaveDB", {

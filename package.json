@@ -6,10 +6,13 @@
     "chai-http": "^4.3.0",
     "cors": "^2.8.5",
     "express": "^4.17.1",
-    "mocha": "6.2.1",
+    "helmet": "3.21.1",
+    "mocha": "6.2.3",
+    "mongo-sanitize": "1.0.1",
     "mongoose": "^5.9.23",
     "nodemon": "^2.0.4",
     "onchange": "^7.0.2",
+    "snyk": "^1.364.1",
     "socket.io": "^2.3.0",
     "uuidv4": "^6.1.0"
   },
@@ -19,7 +22,7 @@
   "scripts": {
     "start": "nodemon server.js",
     "build": "cd client && yarn install && yarn build",
-    "test": "SET NODE_ENV = 'dev' && mocha \"./tests/**/*.test.js\"",
+    "test": "snyk test && SET NODE_ENV = 'dev' && mocha \"./tests/**/*.test.js\"",
     "test:watch": "SET NODE_ENV = 'dev' && onchange \"./**/*.js\" -i -k -- yarn run test"
   }
 }
